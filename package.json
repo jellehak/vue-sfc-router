@@ -8,5 +8,13 @@
   },
   "keywords": [],
   "author": "Jelle",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jellehak/vue-sfc-router.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jellehak/vue-sfc-router/issues"
+  },
+  "homepage": "https://github.com/jellehak/vue-sfc-router#readme"
 }

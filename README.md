@@ -25,7 +25,7 @@ Or drop/ import the components directly in your project.
             </template>
         </Route>
         <Route path='/login' component="LoginPage"/>
-        <Route exact path='/password/:code/'>
+        <Route path='/password/:code/'>
             <template #default={params, path}>
                 {{params, path}}
             </template>
