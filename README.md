@@ -22,7 +22,6 @@ Or drop/ import the components directly in your project.
         <Route path='/products/:id'>
             <template #default={params, query, path}>
                 Product {{params.id}}
-                {{query}}
             </template>
         </Route>
         <Route path='/login' component="LoginPage"/>

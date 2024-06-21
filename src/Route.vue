@@ -52,7 +52,7 @@ function extractQuery(query = "") {
     const params = new URLSearchParams(queryString)
 
     const _params = {}
-    const resp = params.forEach((value, key) => {
+    params.forEach((value, key) => {
         if (_params[key]) {
             if (Array.isArray(_params[key])) {
                 _params[key].push(value)

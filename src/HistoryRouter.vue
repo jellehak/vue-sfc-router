@@ -18,7 +18,10 @@ provide('router', {
     props,
     locationHash,
     pathMatch,
-    extractVariables: (path = "") => extractVariables(path, locationHash.value)
+    extractVariables: (path = "") => {
+        const pathWithoutQuery = locationHash.value.split('?')[0]
+        return extractVariables(path, pathWithoutQuery)
+    }
 })
 
 onMounted(() => {
