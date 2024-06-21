@@ -20,8 +20,9 @@ Or drop/ import the components directly in your project.
             Nice product listing
         </Route>
         <Route path='/products/:id'>
-            <template #default={params, path}>
+            <template #default={params, query, path}>
                 Product {{params.id}}
+                {{query}}
             </template>
         </Route>
         <Route path='/login' component="LoginPage"/>
