@@ -1,4 +1,4 @@
-Fast and lightweight router for Vue
+Lightweight router for Vue
 
 # Installation
 ```js
