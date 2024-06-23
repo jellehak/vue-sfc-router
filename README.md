@@ -7,12 +7,16 @@ import SfcRouter from 'vue-sfc-router'
 app.use(SfcRouter)
 ```
 
-Or drop/ import the components directly in your project.
+You can also import the components directly in your project.
+
+```js
+import {HashRouter, Route} from 'vue-sfc-router'
+```
 
 # Usage
 ```html
 <template>
-    <HistoryRouter debug=false>
+    <HashRouter debug=false>
         <Route path=''>
             Hello world
         </Route>
@@ -30,6 +34,6 @@ Or drop/ import the components directly in your project.
                 {{params, path}}
             </template>
         </Route>
-    </HistoryRouter>
+    </HashRouter>
 </template>
 ```
