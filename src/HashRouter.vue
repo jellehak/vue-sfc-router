@@ -3,9 +3,8 @@
 </template>
 
 <script setup>
-import { ref, provide, onMounted } from 'vue'
+import { ref, reactive, provide, onMounted } from 'vue'
 
-const locationHash = ref(window.location.hash.replace('#', ''))
 
 const props = defineProps({
     debug: {
@@ -14,19 +13,38 @@ const props = defineProps({
     }
 })
 
-provide('router', {
+const router = reactive({
     props,
-    locationHash,
+    locationHash: getHash(),
     pathMatch,
-    extractVariables: (path = "") => {
-        const pathWithoutQuery = locationHash.value.split('?')[0]
+    extractQuery,
+    extractVariables (path = "") {
+        const pathWithoutQuery = router.locationHash.split('?')[0]
         return extractVariables(path, pathWithoutQuery)
     }
 })
 
+/**
+ * Initial location hash
+ */
+// const locationHash = router.locationHash //ref(window.location.hash.replace('#', ''))
+
+function getHash() {
+    return window.location.hash.replace('#', '')
+}
+
+provide('router', router)
+
+const route = reactive({
+    query: {}
+})
+
+provide('route', route)
+
 onMounted(() => {
     window.addEventListener('hashchange', () => {
-        locationHash.value = window.location.hash.replace('#', '')
+        router.locationHash = window.location.hash.replace('#', '')
+        route.query = extractQuery(router.locationHash)
     })
 })
 
@@ -34,7 +52,7 @@ onMounted(() => {
  * @example pathMatch('/user/:id', '/user/5') // would yield true
  * @param {*} path 
  */
-function pathMatch(path = "", current = locationHash.value) {
+function pathMatch(path = "", current = router.locationHash) {
     if (path === '/') {
         return current === '' || current === '#'
     }
@@ -63,5 +81,34 @@ function extractVariables (path = "", matchedPath = "") {
     })
 
     return variables
+}
+
+/**
+ * @example 
+ * extractQuery('#/products/1?price=1&color=green&color=blue') 
+ * => 
+ * {price: 1, color: ['green', 'blue']}
+ */
+ function extractQuery(query = "") {
+    const queryIndex = query.indexOf('?')
+    if (queryIndex === -1) {
+        return {}
+    }
+    const queryString = query.slice(queryIndex + 1)
+    const params = new URLSearchParams(queryString)
+
+    const _params = {}
+    params.forEach((value, key) => {
+        if (_params[key]) {
+            if (Array.isArray(_params[key])) {
+                _params[key].push(value)
+            } else {
+                _params[key] = [_params[key], value]
+            }
+        } else {
+            _params[key] = value
+        }
+    })
+    return _params
 }
 </script>

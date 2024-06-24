@@ -37,39 +37,10 @@ const props = defineProps({
     }
 })
 
-/**
- * @example 
- * extractQuery('#/products/1?price=1&color=green&color=blue') 
- * => 
- * {price: 1, color: ['green', 'blue']}
- */
-function extractQuery(query = "") {
-    const queryIndex = query.indexOf('?')
-    if (queryIndex === -1) {
-        return {}
-    }
-    const queryString = query.slice(queryIndex + 1)
-    const params = new URLSearchParams(queryString)
-
-    const _params = {}
-    params.forEach((value, key) => {
-        if (_params[key]) {
-            if (Array.isArray(_params[key])) {
-                _params[key].push(value)
-            } else {
-                _params[key] = [_params[key], value]
-            }
-        } else {
-            _params[key] = value
-        }
-    })
-    return _params
-}
-
 const isPathMatched = computed(() => router.pathMatch(props.path))
 const bind = computed(() => ({
     path: props.path,
     params: router.extractVariables(props.path),
-    query: extractQuery(router.locationHash.value)
+    query: router.extractQuery(router.locationHash.value)
 }))
 </script>
