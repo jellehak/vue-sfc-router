@@ -14,6 +14,9 @@ const props = defineProps({
 })
 
 const router = reactive({
+    push(path) {
+        window.location.hash = path
+    },
     props,
     locationHash: getHash(),
     pathMatch,
@@ -53,8 +56,8 @@ onMounted(() => {
  * @param {*} path 
  */
 function pathMatch(path = "", current = router.locationHash) {
-    if (path === '/') {
-        return current === '' || current === '#'
+    if(path === current) {
+        return true
     }
     const string = current
     const pattern = path.replace(/:[^\s/]+/g, '[^/]+')

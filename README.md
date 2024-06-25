@@ -18,6 +18,9 @@ import {HashRouter, Route} from 'vue-sfc-router'
 <template>
     <HashRouter debug=false>
         <Route path=''>
+            <Redirect to='/' />
+        </Route>
+        <Route path='/'>
             Hello world
         </Route>
         <Route path='/products'>
