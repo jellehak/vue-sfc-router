@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, provide, onMounted } from 'vue'
+import { computed, reactive, provide, onMounted } from 'vue'
 
 
 const props = defineProps({
@@ -13,18 +13,23 @@ const props = defineProps({
     }
 })
 
+function getPathWithoutQuery(path = "") {
+    return path.split('?')[0]
+}
+
 const router = reactive({
     push(path) {
         window.location.hash = path
     },
     props,
     locationHash: getHash(),
+    locationPath: computed(() => getPathWithoutQuery(router.locationHash)),
     pathMatch,
     extractQuery,
     extractVariables (path = "") {
-        const pathWithoutQuery = router.locationHash.split('?')[0]
+        const pathWithoutQuery = getPathWithoutQuery(router.locationHash)
         return extractVariables(path, pathWithoutQuery)
-    }
+    },
 })
 
 /**
@@ -39,7 +44,7 @@ function getHash() {
 provide('router', router)
 
 const route = reactive({
-    query: {}
+    query: extractQuery(router.locationHash),
 })
 
 provide('route', route)
@@ -55,7 +60,7 @@ onMounted(() => {
  * @example pathMatch('/user/:id', '/user/5') // would yield true
  * @param {*} path 
  */
-function pathMatch(path = "", current = router.locationHash) {
+function pathMatch(path = "", current = router.locationPath) {
     if(path === current) {
         return true
     }

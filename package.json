@@ -1,6 +1,6 @@
 {
   "name": "vue-sfc-router",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Fast and lightweight router for Vue",
   "main": "index.js",
   "scripts": {

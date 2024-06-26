@@ -25,6 +25,7 @@
 import { computed, inject } from 'vue'
 
 const router = inject('router')
+const route = inject('route')
 
 const props = defineProps({
     path: {
@@ -41,6 +42,6 @@ const isPathMatched = computed(() => router.pathMatch(props.path))
 const bind = computed(() => ({
     path: props.path,
     params: router.extractVariables(props.path),
-    query: router.extractQuery(router.locationHash.value)
+    query: route.query,
 }))
 </script>
